@@ -28,6 +28,7 @@
             this.chkSpaces = new System.Windows.Forms.CheckBox();
             this.grpOptions = new System.Windows.Forms.GroupBox();
             this.trackBlack = new System.Windows.Forms.TrackBar();
+            this.chkZoharMode = new System.Windows.Forms.CheckBox();
             this.chkTrackSingle = new System.Windows.Forms.CheckBox();
             this.lblCustomWidth = new System.Windows.Forms.Label();
             this.numCustomWidth = new System.Windows.Forms.NumericUpDown();
@@ -54,7 +55,7 @@
             this.txtInput.Multiline = true;
             this.txtInput.Name = "txtInput";
             this.txtInput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtInput.Size = new System.Drawing.Size(342, 661);
+            this.txtInput.Size = new System.Drawing.Size(284, 661);
             this.txtInput.TabIndex = 0;
             this.txtInput.TextChanged += new System.EventHandler(this.StateChanged_CheckedChanged);
             // 
@@ -73,6 +74,7 @@
             // grpOptions
             // 
             this.grpOptions.Controls.Add(this.trackBlack);
+            this.grpOptions.Controls.Add(this.chkZoharMode);
             this.grpOptions.Controls.Add(this.chkTrackSingle);
             this.grpOptions.Controls.Add(this.lblCustomWidth);
             this.grpOptions.Controls.Add(this.numCustomWidth);
@@ -86,11 +88,11 @@
             this.grpOptions.Controls.Add(this.chkTabs);
             this.grpOptions.Controls.Add(this.chkSpaces);
             this.grpOptions.Dock = System.Windows.Forms.DockStyle.Right;
-            this.grpOptions.Location = new System.Drawing.Point(342, 0);
+            this.grpOptions.Location = new System.Drawing.Point(284, 0);
             this.grpOptions.Margin = new System.Windows.Forms.Padding(6);
             this.grpOptions.Name = "grpOptions";
             this.grpOptions.Padding = new System.Windows.Forms.Padding(6);
-            this.grpOptions.Size = new System.Drawing.Size(342, 661);
+            this.grpOptions.Size = new System.Drawing.Size(400, 661);
             this.grpOptions.TabIndex = 1;
             this.grpOptions.TabStop = false;
             this.grpOptions.Text = "Diacritical Options";
@@ -103,6 +105,17 @@
             this.trackBlack.Size = new System.Drawing.Size(315, 45);
             this.trackBlack.TabIndex = 14;
             this.trackBlack.Scroll += new System.EventHandler(this.StateChanged_CheckedChanged);
+            // 
+            // chkZoharMode
+            // 
+            this.chkZoharMode.AutoSize = true;
+            this.chkZoharMode.Location = new System.Drawing.Point(11, 508);
+            this.chkZoharMode.Name = "chkZoharMode";
+            this.chkZoharMode.Size = new System.Drawing.Size(205, 28);
+            this.chkZoharMode.TabIndex = 13;
+            this.chkZoharMode.Text = "&Zohar Colored Mode";
+            this.chkZoharMode.UseVisualStyleBackColor = true;
+            this.chkZoharMode.CheckedChanged += new System.EventHandler(this.StateChanged_CheckedChanged);
             // 
             // chkTrackSingle
             // 
@@ -275,6 +288,7 @@
         private System.Windows.Forms.CheckBox chkSanitize;
         private System.Windows.Forms.CheckBox chkTrackSingle;
         private System.Windows.Forms.TrackBar trackBlack;
+        private System.Windows.Forms.CheckBox chkZoharMode;
     }
 }
 

@@ -19,6 +19,8 @@ namespace Photo_Nach {
 
         readonly Output_Window ow = new Output_Window();
 
+        bool zoharMode;
+
         public string SanitizeString(string input) {
 
             // Remove double spacing:
@@ -276,6 +278,8 @@ namespace Photo_Nach {
                 dataInput = StripCrowns(dataInput);
             }
 
+            zoharMode = chkZoharMode.Checked;
+
             int width;
 
             if (numCustomWidth.Value == 0) {
@@ -325,15 +329,112 @@ namespace Photo_Nach {
             }
 
             wordMatrix = dataInput.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            int numberOfTargetedCharacter = 0;
             for (int line = 0; line < wordMatrix.Count; line++) {
                 for (int column = 0; column < wordMatrix[line].Length; column++) {
 
-                    if (chkTrackSingle.Checked) {
-                        bmp.SetPixel(column, line, wordMatrix[line][column] == uniqueListOfCharacters[trackBlack.Value] ? Color.Black : Color.White);
+                    if (zoharMode & !chkTrackSingle.Checked) {
+                        switch (wordMatrix[line][column]) {
+                            case 'א':
+                                bmp.SetPixel(column, line, Color.White);
+                                break;
+                            case 'ב':
+                                bmp.SetPixel(column, line, Color.Red);
+                                break;
+                            case 'ג':
+                                bmp.SetPixel(column, line, Color.Red);
+                                break;
+                            case 'ד':
+                                bmp.SetPixel(column, line, Color.Red);
+                                break;
+                            case 'ה':
+                                bmp.SetPixel(column, line, Color.Red);
+                                break;
+                            case 'ו':
+                                bmp.SetPixel(column, line, Color.Red);
+                                break;
+                            case 'ז':
+                                bmp.SetPixel(column, line, Color.Red);
+                                break;
+                            case 'ח':
+                                bmp.SetPixel(column, line, Color.Red);
+                                break;
+                            case 'ט':
+                                bmp.SetPixel(column, line, Color.Green);
+                                break;
+                            case 'י':
+                                bmp.SetPixel(column, line, Color.Green);
+                                break;
+                            case 'כ':
+                                bmp.SetPixel(column, line, Color.Green);
+                                break;
+                            case 'ך':
+                                bmp.SetPixel(column, line, Color.Green);
+                                break;
+                            case 'ל':
+                                bmp.SetPixel(column, line, Color.Green);
+                                break;
+                            case 'מ':
+                                bmp.SetPixel(column, line, Color.Green);
+                                break;
+                            case 'ם':
+                                bmp.SetPixel(column, line, Color.Green);
+                                break;
+                            case 'נ':
+                                bmp.SetPixel(column, line, Color.Green);
+                                break;
+                            case 'ן':
+                                bmp.SetPixel(column, line, Color.Green);
+                                break;
+                            case 'ס':
+                                bmp.SetPixel(column, line, Color.Green);
+                                break;
+                            case 'ע':
+                                bmp.SetPixel(column, line, Color.Black);
+                                break;
+                            case 'פ':
+                                bmp.SetPixel(column, line, Color.Black);
+                                break;
+                            case 'ף':
+                                bmp.SetPixel(column, line, Color.Black);
+                                break;
+                            case 'צ':
+                                bmp.SetPixel(column, line, Color.Black);
+                                break;
+                            case 'ץ':
+                                bmp.SetPixel(column, line, Color.Black);
+                                break;
+                            case 'ק':
+                                bmp.SetPixel(column, line, Color.Black);
+                                break;
+                            case 'ר':
+                                bmp.SetPixel(column, line, Color.Black);
+                                break;
+                            case 'ש':
+                                bmp.SetPixel(column, line, Color.Black);
+                                break;
+                            case 'ת':
+                                bmp.SetPixel(column, line, Color.Black);
+                                break;
+                        }
+
                     } else {
-                        bmp.SetPixel(column, line, colorMapping[wordMatrix[line][column]]);
+                        if (chkTrackSingle.Checked) {
+                            if (wordMatrix[line][column] == uniqueListOfCharacters[trackBlack.Value]) {
+                                numberOfTargetedCharacter++;
+
+                            }
+                            bmp.SetPixel(column, line, wordMatrix[line][column] == uniqueListOfCharacters[trackBlack.Value] ? Color.Black : Color.White);
+                        } else {
+                            bmp.SetPixel(column, line, colorMapping[wordMatrix[line][column]]);
+                        }
                     }
+
+                    
                 }
+            }
+            if (chkTrackSingle.Checked) {
+                chkTrackSingle.Text = "Trac&k single character: (" + uniqueListOfCharacters[trackBlack.Value].ToString() + ")" + " (" + numberOfTargetedCharacter + " found)";
             }
             ow.picOutput.Image = bmp.Bitmap;
         }

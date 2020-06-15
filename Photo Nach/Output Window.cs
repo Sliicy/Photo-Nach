@@ -44,7 +44,7 @@ namespace Photo_Nach {
         }
 
         private void CopyToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (picOutput.Image!= null) {
+            if (picOutput.Image != null) {
                 Clipboard.SetImage(picOutput.Image);
             }
         }
