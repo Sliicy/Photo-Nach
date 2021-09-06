@@ -1,5 +1,5 @@
 ﻿namespace Photo_Nach {
-    partial class frmMain {
+    partial class FrmMain {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -23,10 +23,11 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.txtInput = new System.Windows.Forms.TextBox();
             this.chkSpaces = new System.Windows.Forms.CheckBox();
             this.grpOptions = new System.Windows.Forms.GroupBox();
+            this.btnRemoveChapters = new System.Windows.Forms.Button();
             this.trackBlack = new System.Windows.Forms.TrackBar();
             this.chkZoharMode = new System.Windows.Forms.CheckBox();
             this.chkTrackSingle = new System.Windows.Forms.CheckBox();
@@ -73,6 +74,7 @@
             // 
             // grpOptions
             // 
+            this.grpOptions.Controls.Add(this.btnRemoveChapters);
             this.grpOptions.Controls.Add(this.trackBlack);
             this.grpOptions.Controls.Add(this.chkZoharMode);
             this.grpOptions.Controls.Add(this.chkTrackSingle);
@@ -96,6 +98,16 @@
             this.grpOptions.TabIndex = 1;
             this.grpOptions.TabStop = false;
             this.grpOptions.Text = "Diacritical Options";
+            // 
+            // btnRemoveChapters
+            // 
+            this.btnRemoveChapters.Location = new System.Drawing.Point(12, 542);
+            this.btnRemoveChapters.Name = "btnRemoveChapters";
+            this.btnRemoveChapters.Size = new System.Drawing.Size(275, 50);
+            this.btnRemoveChapters.TabIndex = 15;
+            this.btnRemoveChapters.Text = "Remove Chapters";
+            this.btnRemoveChapters.UseVisualStyleBackColor = true;
+            this.btnRemoveChapters.Click += new System.EventHandler(this.BtnRemoveChapters_Click);
             // 
             // trackBlack
             // 
@@ -248,7 +260,7 @@
             this.chkTabs.UseVisualStyleBackColor = true;
             this.chkTabs.CheckedChanged += new System.EventHandler(this.StateChanged_CheckedChanged);
             // 
-            // frmMain
+            // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -258,7 +270,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(6);
-            this.Name = "frmMain";
+            this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Photo Nach";
             this.Load += new System.EventHandler(this.FrmMain_Load);
@@ -289,6 +301,7 @@
         private System.Windows.Forms.CheckBox chkTrackSingle;
         private System.Windows.Forms.TrackBar trackBlack;
         private System.Windows.Forms.CheckBox chkZoharMode;
+        private System.Windows.Forms.Button btnRemoveChapters;
     }
 }
 

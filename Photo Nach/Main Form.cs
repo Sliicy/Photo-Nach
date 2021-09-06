@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -12,8 +13,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Photo_Nach {
-    public partial class frmMain : Form {
-        public frmMain() {
+    public partial class FrmMain : Form {
+        public FrmMain() {
             InitializeComponent();
         }
 
@@ -169,7 +170,7 @@ namespace Photo_Nach {
             return Math.Ceiling(Math.Pow(number, (double)1 / 3));
         }
 
-        static IEnumerable<String> CombinationsWithRepetition(IEnumerable<int> input, int length) {
+        static IEnumerable<string> CombinationsWithRepetition(IEnumerable<int> input, int length) {
             // Credit goes to the author here: https://stackoverflow.com/questions/25824376/combinations-with-repetitions-c-sharp
             if (length <= 0)
                 yield return "";
@@ -233,9 +234,9 @@ namespace Photo_Nach {
                 // Convert the string back into a color, and assigns it to each consecutive character:
                 colorDict.Add(inputList[characterCounter], Color.FromArgb(
                     255, 
-                    Int32.Parse(colorPermutation.TrimEnd(',').Split(',')[0]), 
-                    Int32.Parse(colorPermutation.TrimEnd(',').Split(',')[1]), 
-                    Int32.Parse(colorPermutation.TrimEnd(',').Split(',')[2])));
+                    int.Parse(colorPermutation.TrimEnd(',').Split(',')[0]), 
+                    int.Parse(colorPermutation.TrimEnd(',').Split(',')[1]), 
+                    int.Parse(colorPermutation.TrimEnd(',').Split(',')[2])));
                 characterCounter++;
             }
             return colorDict;
@@ -320,7 +321,7 @@ namespace Photo_Nach {
             }
 
             DirectBitmap bmp = new DirectBitmap(width, height);
-            List<string> wordMatrix = new List<string>();
+            List<string> wordMatrix;
 
             // Contains the color mapping needed to assign each character a unique high contrast color:
             Dictionary<char, Color> colorMapping = new Dictionary<char, Color>();
@@ -436,7 +437,7 @@ namespace Photo_Nach {
             if (chkTrackSingle.Checked) {
                 chkTrackSingle.Text = "Trac&k single character: (" + uniqueListOfCharacters[trackBlack.Value].ToString() + ")" + " (" + numberOfTargetedCharacter + " found)";
             }
-            ow.picOutput.Image = bmp.Bitmap;
+            ow.picOutput.Image = ResizeImage(bmp.Bitmap, ow.picOutput.Width, ow.picOutput.Height);
         }
 
         private void FrmMain_Load(object sender, EventArgs e) {
@@ -449,13 +450,52 @@ namespace Photo_Nach {
         private void ChkTrackSingle_CheckedChanged(object sender, EventArgs e) {
             trackBlack.Enabled = chkTrackSingle.Checked;
             StateChanged_CheckedChanged(sender, e);
-            if (!chkTrackSingle.Checked) { chkTrackSingle.Text = "Trac&k single character:"; }
+            if (!chkTrackSingle.Checked)
+                chkTrackSingle.Text = "Trac&k single character:";
+        }
+
+        /// Source: https://stackoverflow.com/questions/1922040/how-to-resize-an-image-c-sharp
+        /// <summary>
+        /// Resize the image to the specified width and height.
+        /// </summary>
+        /// <param name="image">The image to resize.</param>
+        /// <param name="width">The width to resize to.</param>
+        /// <param name="height">The height to resize to.</param>
+        /// <returns>The resized image.</returns>
+        public static Bitmap ResizeImage(Image image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
+        }
+
+        private void BtnRemoveChapters_Click(object sender, EventArgs e)
+        {
+            txtInput.Text = Regex.Replace(txtInput.Text, "Chapter \\d+", "");
         }
     }
 }
 public class DirectBitmap : IDisposable {
     public Bitmap Bitmap { get; private set; }
-    public Int32[] Bits { get; private set; }
+    public int[] Bits { get; private set; }
     public bool Disposed { get; private set; }
     public int Height { get; private set; }
     public int Width { get; private set; }
