@@ -6,13 +6,13 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Photo_Nach {
+namespace Photo_Nach
+{
     public partial class FrmMain : Form {
         public FrmMain() {
             InitializeComponent();
@@ -21,6 +21,8 @@ namespace Photo_Nach {
         readonly Output_Window ow = new Output_Window();
 
         bool zoharMode;
+
+        DirectBitmap bmp;
 
         public string SanitizeString(string input) {
 
@@ -171,7 +173,7 @@ namespace Photo_Nach {
         }
 
         static IEnumerable<string> CombinationsWithRepetition(IEnumerable<int> input, int length) {
-            // Credit goes to the author here: https://stackoverflow.com/questions/25824376/combinations-with-repetitions-c-sharp
+            // Source: https://stackoverflow.com/questions/25824376/combinations-with-repetitions-c-sharp
             if (length <= 0)
                 yield return "";
             else {
@@ -241,41 +243,56 @@ namespace Photo_Nach {
             }
             return colorDict;
         }
+
         static string SortString(string input) {
             char[] characters = input.ToArray();
             Array.Sort(characters);
             return new string(characters);
         }
 
-        private void StateChanged_CheckedChanged(object sender, EventArgs e) {
+        private void StateChanged_CheckedChanged(object sender, EventArgs e)
+        {
+            RedrawImage();
+        }
 
+        private void RedrawImage()
+        {
             string dataInput = txtInput.Text;
 
-            if (chkSanitize.Checked) {
+            if (chkSanitize.Checked)
+            {
                 dataInput = SanitizeString(dataInput);
             }
-            if (chkSofis.Checked) {
+            if (chkSofis.Checked)
+            {
                 dataInput = StripSofis(dataInput);
             }
-            if (chkSpaces.Checked) {
+            if (chkSpaces.Checked)
+            {
                 dataInput = StripSpaces(dataInput);
             }
-            if (chkTabs.Checked) {
+            if (chkTabs.Checked)
+            {
                 dataInput = StripTabs(dataInput);
             }
-            if (chkDottedLetters.Checked) {
+            if (chkDottedLetters.Checked)
+            {
                 dataInput = StripDots(dataInput);
             }
-            if (chkNekudos.Checked) {
+            if (chkNekudos.Checked)
+            {
                 dataInput = StripNekudos(dataInput);
             }
-            if (chkChataf.Checked) {
+            if (chkChataf.Checked)
+            {
                 dataInput = StripChataf(dataInput);
             }
-            if (chkCantillations.Checked) {
+            if (chkCantillations.Checked)
+            {
                 dataInput = StripCantillations(dataInput);
             }
-            if (chkCrowns.Checked) {
+            if (chkCrowns.Checked)
+            {
                 dataInput = StripCrowns(dataInput);
             }
 
@@ -283,9 +300,11 @@ namespace Photo_Nach {
 
             int width;
 
-            if (numCustomWidth.Value == 0) {
+            if (numCustomWidth.Value == 0)
+            {
                 width = GetLongestLineLength(dataInput);
-            } else {
+            } else
+            {
 
                 // Set width to custom amount specified by user:
                 width = decimal.ToInt32(numCustomWidth.Value);
@@ -297,45 +316,56 @@ namespace Photo_Nach {
             int height = dataInput.Split('\n').Length;
 
             // Width & Height cannot be 0:
-            if (width == 0) {
+            if (width == 0)
+            {
                 width = 1;
             }
-            if (height == 0) {
+            if (height == 0)
+            {
                 height = 1;
             }
-            if (ow.picOutput.Image != null) {
+            if (ow.picOutput.Image != null)
+            {
                 ow.picOutput.Image.Dispose();
             }
 
             string uniqueListOfCharacters = SortString(new string(dataInput.ToCharArray().Distinct().ToArray()));
-            
-            if (chkTrackSingle.Checked) {
-                if (dataInput.Length == 0) {
+
+            if (chkTrackSingle.Checked)
+            {
+                if (dataInput.Length == 0)
+                {
                     return;
                 }
-                if (trackBlack.Value > uniqueListOfCharacters.Length - 1) {
+                if (trackBlack.Value > uniqueListOfCharacters.Length - 1)
+                {
                     trackBlack.Value--;
                 }
                 chkTrackSingle.Text = "Trac&k single character: (" + uniqueListOfCharacters[trackBlack.Value].ToString() + ")";
                 trackBlack.Maximum = uniqueListOfCharacters.Length - 1;
             }
 
-            DirectBitmap bmp = new DirectBitmap(width, height);
+            bmp = new DirectBitmap(width, height);
             List<string> wordMatrix;
 
             // Contains the color mapping needed to assign each character a unique high contrast color:
             Dictionary<char, Color> colorMapping = new Dictionary<char, Color>();
-            if (!chkTrackSingle.Checked) {
+            if (!chkTrackSingle.Checked)
+            {
                 colorMapping = GenerateColorsFromCharacters(dataInput);
             }
 
             wordMatrix = dataInput.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
             int numberOfTargetedCharacter = 0;
-            for (int line = 0; line < wordMatrix.Count; line++) {
-                for (int column = 0; column < wordMatrix[line].Length; column++) {
+            for (int line = 0; line < wordMatrix.Count; line++)
+            {
+                for (int column = 0; column < wordMatrix[line].Length; column++)
+                {
 
-                    if (zoharMode & !chkTrackSingle.Checked) {
-                        switch (wordMatrix[line][column]) {
+                    if (zoharMode & !chkTrackSingle.Checked)
+                    {
+                        switch (wordMatrix[line][column])
+                        {
                             case 'א':
                                 bmp.SetPixel(column, line, Color.White);
                                 break;
@@ -419,37 +449,43 @@ namespace Photo_Nach {
                                 break;
                         }
 
-                    } else {
-                        if (chkTrackSingle.Checked) {
-                            if (wordMatrix[line][column] == uniqueListOfCharacters[trackBlack.Value]) {
+                    } else
+                    {
+                        if (chkTrackSingle.Checked)
+                        {
+                            if (wordMatrix[line][column] == uniqueListOfCharacters[trackBlack.Value])
+                            {
                                 numberOfTargetedCharacter++;
 
                             }
                             bmp.SetPixel(column, line, wordMatrix[line][column] == uniqueListOfCharacters[trackBlack.Value] ? Color.Black : Color.White);
-                        } else {
+                        } else
+                        {
                             bmp.SetPixel(column, line, colorMapping[wordMatrix[line][column]]);
                         }
                     }
-
-                    
                 }
             }
-            if (chkTrackSingle.Checked) {
+            if (chkTrackSingle.Checked)
+            {
                 chkTrackSingle.Text = "Trac&k single character: (" + uniqueListOfCharacters[trackBlack.Value].ToString() + ")" + " (" + numberOfTargetedCharacter + " found)";
             }
+            lblIndex.Text = "Index: " + trackBlack.Value;
             ow.picOutput.Image = ResizeImage(bmp.Bitmap, ow.picOutput.Width, ow.picOutput.Height);
+            
         }
 
         private void FrmMain_Load(object sender, EventArgs e) {
             ow.Show();
             Left = (Screen.PrimaryScreen.Bounds.Width / 2) - ((Width + ow.Width) / 2);
             ow.Left = Right;
-            
+            Words_To_Letters wtl = new Words_To_Letters();
+            wtl.Show();
         }
 
         private void ChkTrackSingle_CheckedChanged(object sender, EventArgs e) {
             trackBlack.Enabled = chkTrackSingle.Checked;
-            StateChanged_CheckedChanged(sender, e);
+            RedrawImage();
             if (!chkTrackSingle.Checked)
                 chkTrackSingle.Text = "Trac&k single character:";
         }
@@ -472,10 +508,10 @@ namespace Photo_Nach {
             using (var graphics = Graphics.FromImage(destImage))
             {
                 graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.CompositingQuality = CompositingQuality.HighSpeed;
                 graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                graphics.SmoothingMode = SmoothingMode.HighSpeed;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
 
                 using (var wrapMode = new ImageAttributes())
                 {
@@ -490,45 +526,12 @@ namespace Photo_Nach {
         private void BtnRemoveChapters_Click(object sender, EventArgs e)
         {
             txtInput.Text = Regex.Replace(txtInput.Text, "Chapter \\d+", "");
+            RedrawImage();
         }
-    }
-}
-public class DirectBitmap : IDisposable {
-    public Bitmap Bitmap { get; private set; }
-    public int[] Bits { get; private set; }
-    public bool Disposed { get; private set; }
-    public int Height { get; private set; }
-    public int Width { get; private set; }
 
-    protected GCHandle BitsHandle { get; private set; }
-
-    public DirectBitmap(int width, int height) {
-        Width = width;
-        Height = height;
-        Bits = new Int32[width * height];
-        BitsHandle = GCHandle.Alloc(Bits, GCHandleType.Pinned);
-        Bitmap = new Bitmap(width, height, width * 4, PixelFormat.Format32bppPArgb, BitsHandle.AddrOfPinnedObject());
-    }
-
-    public void SetPixel(int x, int y, Color colour) {
-        int index = x + (y * Width);
-        int col = colour.ToArgb();
-
-        Bits[index] = col;
-    }
-
-    public Color GetPixel(int x, int y) {
-        int index = x + (y * Width);
-        int col = Bits[index];
-        Color result = Color.FromArgb(col);
-
-        return result;
-    }
-
-    public void Dispose() {
-        if (Disposed) return;
-        Disposed = true;
-        Bitmap.Dispose();
-        BitsHandle.Free();
+        private void RadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            RedrawImage();
+        }
     }
 }

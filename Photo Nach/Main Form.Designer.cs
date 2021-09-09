@@ -41,6 +41,7 @@
             this.chkNekudos = new System.Windows.Forms.CheckBox();
             this.chkDottedLetters = new System.Windows.Forms.CheckBox();
             this.chkTabs = new System.Windows.Forms.CheckBox();
+            this.lblIndex = new System.Windows.Forms.Label();
             this.grpOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBlack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCustomWidth)).BeginInit();
@@ -74,6 +75,7 @@
             // 
             // grpOptions
             // 
+            this.grpOptions.Controls.Add(this.lblIndex);
             this.grpOptions.Controls.Add(this.btnRemoveChapters);
             this.grpOptions.Controls.Add(this.trackBlack);
             this.grpOptions.Controls.Add(this.chkZoharMode);
@@ -101,7 +103,7 @@
             // 
             // btnRemoveChapters
             // 
-            this.btnRemoveChapters.Location = new System.Drawing.Point(12, 542);
+            this.btnRemoveChapters.Location = new System.Drawing.Point(9, 542);
             this.btnRemoveChapters.Name = "btnRemoveChapters";
             this.btnRemoveChapters.Size = new System.Drawing.Size(275, 50);
             this.btnRemoveChapters.TabIndex = 15;
@@ -112,9 +114,9 @@
             // trackBlack
             // 
             this.trackBlack.Enabled = false;
-            this.trackBlack.Location = new System.Drawing.Point(12, 468);
+            this.trackBlack.Location = new System.Drawing.Point(92, 468);
             this.trackBlack.Name = "trackBlack";
-            this.trackBlack.Size = new System.Drawing.Size(315, 45);
+            this.trackBlack.Size = new System.Drawing.Size(235, 45);
             this.trackBlack.TabIndex = 14;
             this.trackBlack.Scroll += new System.EventHandler(this.StateChanged_CheckedChanged);
             // 
@@ -260,6 +262,15 @@
             this.chkTabs.UseVisualStyleBackColor = true;
             this.chkTabs.CheckedChanged += new System.EventHandler(this.StateChanged_CheckedChanged);
             // 
+            // lblIndex
+            // 
+            this.lblIndex.AutoSize = true;
+            this.lblIndex.Location = new System.Drawing.Point(9, 468);
+            this.lblIndex.Name = "lblIndex";
+            this.lblIndex.Size = new System.Drawing.Size(77, 24);
+            this.lblIndex.TabIndex = 16;
+            this.lblIndex.Text = "Index: 0";
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -302,6 +313,7 @@
         private System.Windows.Forms.TrackBar trackBlack;
         private System.Windows.Forms.CheckBox chkZoharMode;
         private System.Windows.Forms.Button btnRemoveChapters;
+        private System.Windows.Forms.Label lblIndex;
     }
 }
 
