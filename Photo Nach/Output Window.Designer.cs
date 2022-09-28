@@ -93,7 +93,7 @@
             this.picOutput.Margin = new System.Windows.Forms.Padding(6);
             this.picOutput.Name = "picOutput";
             this.picOutput.Size = new System.Drawing.Size(684, 634);
-            this.picOutput.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picOutput.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picOutput.TabIndex = 1;
             this.picOutput.TabStop = false;
             // 
@@ -136,6 +136,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Preview";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Output_Window_FormClosed);
+            this.Load += new System.EventHandler(this.Output_Window_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Output_Window_KeyDown);
             this.menuMain.ResumeLayout(false);
             this.menuMain.PerformLayout();

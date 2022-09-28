@@ -27,6 +27,8 @@
             this.txtInput = new System.Windows.Forms.TextBox();
             this.chkSpaces = new System.Windows.Forms.CheckBox();
             this.grpOptions = new System.Windows.Forms.GroupBox();
+            this.chkStretch = new System.Windows.Forms.CheckBox();
+            this.lblIndex = new System.Windows.Forms.Label();
             this.btnRemoveChapters = new System.Windows.Forms.Button();
             this.trackBlack = new System.Windows.Forms.TrackBar();
             this.chkZoharMode = new System.Windows.Forms.CheckBox();
@@ -41,7 +43,6 @@
             this.chkNekudos = new System.Windows.Forms.CheckBox();
             this.chkDottedLetters = new System.Windows.Forms.CheckBox();
             this.chkTabs = new System.Windows.Forms.CheckBox();
-            this.lblIndex = new System.Windows.Forms.Label();
             this.grpOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBlack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCustomWidth)).BeginInit();
@@ -75,6 +76,7 @@
             // 
             // grpOptions
             // 
+            this.grpOptions.Controls.Add(this.chkStretch);
             this.grpOptions.Controls.Add(this.lblIndex);
             this.grpOptions.Controls.Add(this.btnRemoveChapters);
             this.grpOptions.Controls.Add(this.trackBlack);
@@ -100,6 +102,28 @@
             this.grpOptions.TabIndex = 1;
             this.grpOptions.TabStop = false;
             this.grpOptions.Text = "Diacritical Options";
+            // 
+            // chkStretch
+            // 
+            this.chkStretch.AutoSize = true;
+            this.chkStretch.Checked = true;
+            this.chkStretch.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkStretch.Location = new System.Drawing.Point(9, 598);
+            this.chkStretch.Name = "chkStretch";
+            this.chkStretch.Size = new System.Drawing.Size(144, 28);
+            this.chkStretch.TabIndex = 17;
+            this.chkStretch.Text = "St&retch Image";
+            this.chkStretch.UseVisualStyleBackColor = true;
+            this.chkStretch.CheckedChanged += new System.EventHandler(this.ChkStretch_CheckedChanged);
+            // 
+            // lblIndex
+            // 
+            this.lblIndex.AutoSize = true;
+            this.lblIndex.Location = new System.Drawing.Point(9, 468);
+            this.lblIndex.Name = "lblIndex";
+            this.lblIndex.Size = new System.Drawing.Size(77, 24);
+            this.lblIndex.TabIndex = 16;
+            this.lblIndex.Text = "Index: 0";
             // 
             // btnRemoveChapters
             // 
@@ -262,15 +286,6 @@
             this.chkTabs.UseVisualStyleBackColor = true;
             this.chkTabs.CheckedChanged += new System.EventHandler(this.StateChanged_CheckedChanged);
             // 
-            // lblIndex
-            // 
-            this.lblIndex.AutoSize = true;
-            this.lblIndex.Location = new System.Drawing.Point(9, 468);
-            this.lblIndex.Name = "lblIndex";
-            this.lblIndex.Size = new System.Drawing.Size(77, 24);
-            this.lblIndex.TabIndex = 16;
-            this.lblIndex.Text = "Index: 0";
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -314,6 +329,7 @@
         private System.Windows.Forms.CheckBox chkZoharMode;
         private System.Windows.Forms.Button btnRemoveChapters;
         private System.Windows.Forms.Label lblIndex;
+        private System.Windows.Forms.CheckBox chkStretch;
     }
 }
 

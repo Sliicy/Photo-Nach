@@ -52,5 +52,16 @@ namespace Photo_Nach {
         private void CopyToolStripMenuItem1_Click(object sender, EventArgs e) {
             CopyToolStripMenuItem_Click(sender, e);
         }
+
+        private void Output_Window_Load(object sender, EventArgs e)
+        {
+            if (FrmMain.stretchImage)
+            {
+                picOutput.SizeMode = PictureBoxSizeMode.StretchImage;
+            } else
+            {
+                picOutput.SizeMode = PictureBoxSizeMode.Zoom;
+            }
+        }
     }
 }

@@ -24,6 +24,8 @@ namespace Photo_Nach
 
         DirectBitmap bmp;
 
+        public static bool stretchImage = true;
+
         public string SanitizeString(string input) {
 
             // Remove double spacing:
@@ -361,7 +363,6 @@ namespace Photo_Nach
             {
                 for (int column = 0; column < wordMatrix[line].Length; column++)
                 {
-
                     if (zoharMode & !chkTrackSingle.Checked)
                     {
                         switch (wordMatrix[line][column])
@@ -370,85 +371,38 @@ namespace Photo_Nach
                                 bmp.SetPixel(column, line, Color.White);
                                 break;
                             case 'ב':
-                                bmp.SetPixel(column, line, Color.Red);
-                                break;
                             case 'ג':
-                                bmp.SetPixel(column, line, Color.Red);
-                                break;
                             case 'ד':
-                                bmp.SetPixel(column, line, Color.Red);
-                                break;
                             case 'ה':
-                                bmp.SetPixel(column, line, Color.Red);
-                                break;
                             case 'ו':
-                                bmp.SetPixel(column, line, Color.Red);
-                                break;
                             case 'ז':
-                                bmp.SetPixel(column, line, Color.Red);
-                                break;
                             case 'ח':
                                 bmp.SetPixel(column, line, Color.Red);
                                 break;
                             case 'ט':
-                                bmp.SetPixel(column, line, Color.Green);
-                                break;
                             case 'י':
-                                bmp.SetPixel(column, line, Color.Green);
-                                break;
                             case 'כ':
-                                bmp.SetPixel(column, line, Color.Green);
-                                break;
                             case 'ך':
-                                bmp.SetPixel(column, line, Color.Green);
-                                break;
                             case 'ל':
-                                bmp.SetPixel(column, line, Color.Green);
-                                break;
                             case 'מ':
-                                bmp.SetPixel(column, line, Color.Green);
-                                break;
                             case 'ם':
-                                bmp.SetPixel(column, line, Color.Green);
-                                break;
                             case 'נ':
-                                bmp.SetPixel(column, line, Color.Green);
-                                break;
                             case 'ן':
-                                bmp.SetPixel(column, line, Color.Green);
-                                break;
                             case 'ס':
                                 bmp.SetPixel(column, line, Color.Green);
                                 break;
                             case 'ע':
-                                bmp.SetPixel(column, line, Color.Black);
-                                break;
                             case 'פ':
-                                bmp.SetPixel(column, line, Color.Black);
-                                break;
                             case 'ף':
-                                bmp.SetPixel(column, line, Color.Black);
-                                break;
                             case 'צ':
-                                bmp.SetPixel(column, line, Color.Black);
-                                break;
                             case 'ץ':
-                                bmp.SetPixel(column, line, Color.Black);
-                                break;
                             case 'ק':
-                                bmp.SetPixel(column, line, Color.Black);
-                                break;
                             case 'ר':
-                                bmp.SetPixel(column, line, Color.Black);
-                                break;
                             case 'ש':
-                                bmp.SetPixel(column, line, Color.Black);
-                                break;
                             case 'ת':
                                 bmp.SetPixel(column, line, Color.Black);
                                 break;
                         }
-
                     } else
                     {
                         if (chkTrackSingle.Checked)
@@ -456,7 +410,6 @@ namespace Photo_Nach
                             if (wordMatrix[line][column] == uniqueListOfCharacters[trackBlack.Value])
                             {
                                 numberOfTargetedCharacter++;
-
                             }
                             bmp.SetPixel(column, line, wordMatrix[line][column] == uniqueListOfCharacters[trackBlack.Value] ? Color.Black : Color.White);
                         } else
@@ -472,7 +425,6 @@ namespace Photo_Nach
             }
             lblIndex.Text = "Index: " + trackBlack.Value;
             ow.picOutput.Image = ResizeImage(bmp.Bitmap, ow.picOutput.Width, ow.picOutput.Height);
-            
         }
 
         private void FrmMain_Load(object sender, EventArgs e) {
@@ -531,6 +483,12 @@ namespace Photo_Nach
 
         private void RadioButton_CheckedChanged(object sender, EventArgs e)
         {
+            RedrawImage();
+        }
+
+        private void ChkStretch_CheckedChanged(object sender, EventArgs e)
+        {
+            stretchImage = chkStretch.Checked;
             RedrawImage();
         }
     }
