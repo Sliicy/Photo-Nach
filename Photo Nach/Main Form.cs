@@ -246,6 +246,37 @@ namespace Photo_Nach
             return colorDict;
         }
 
+        public Dictionary<char, Color> GenerateColorsFromCharactersAI(string inputList)
+        {
+            // This function calculates all permutations from 0 - 255 of RGB colors that are far enough apart to be recognized by color.
+            // For example, if 8 colors are needed for A, B, C, D, E, F, G, H, this function will generate the following colors, one per letter:
+            //
+            // (0,0,0), (0,0,255), (0,255,0), (0,255,255), (255,0,0), (255,0,255), (255,255,0), (255,255,255)
+            //
+            // This will be outputted as a dictionary key-pair value, such as:
+            //
+            // A, (0,0,0), B (0,0,255), C (0,255,0), etc.
+
+
+            // Clean the list and remove all duplicate characters:
+            inputList = new string(inputList.ToCharArray().Distinct().ToArray());
+
+            // Calculate the total needed colors for each character:
+            int totalColorsNeeded = inputList.Length;
+
+            // Dictionary that will hold each pair of character and corresponding color as output:
+            Dictionary<char, Color> colorDict = new Dictionary<char, Color>();
+
+            Color[] colors = new Color[totalColorsNeeded];
+            for (int i = 0; i < totalColorsNeeded; i++)
+            {
+                double angle = (360.0 / totalColorsNeeded) * i;
+                colorDict.Add(inputList[i], HSLToRGB(angle, 1.0, 0.5));
+            }
+
+            return colorDict;
+        }
+
         static string SortString(string input) {
             char[] characters = input.ToArray();
             Array.Sort(characters);
@@ -354,7 +385,7 @@ namespace Photo_Nach
             Dictionary<char, Color> colorMapping = new Dictionary<char, Color>();
             if (!chkTrackSingle.Checked)
             {
-                colorMapping = GenerateColorsFromCharacters(dataInput);
+                colorMapping = GenerateColorsFromCharactersAI(dataInput);
             }
 
             wordMatrix = dataInput.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -433,7 +464,47 @@ namespace Photo_Nach
             ow.Left = Right;
             Words_To_Letters wtl = new Words_To_Letters();
             wtl.Show();
+            int numColors = 16;
+            Color[] colors = new Color[numColors];
+            for (int i = 0; i < numColors; i++)
+            {
+                double angle = (360.0 / numColors) * i;
+                colors[i] = HSLToRGB(angle, 1.0, 0.5);
+            }
+            ;
         }
+        static Color HSLToRGB(double h, double s, double l)
+        {
+            // Convert HSL values to RGB values
+            double r, g, b;
+
+            if (s == 0)
+            {
+                r = g = b = l;
+            }
+            else
+            {
+                double q = (l < 0.5) ? l * (1 + s) : l + s - l * s;
+                double p = 2 * l - q;
+                r = HueToRGB(p, q, h + 120);
+                g = HueToRGB(p, q, h);
+                b = HueToRGB(p, q, h - 120);
+            }
+
+            return Color.FromArgb((int)(r * 255), (int)(g * 255), (int)(b * 255));
+        }
+
+        static double HueToRGB(double p, double q, double t)
+        {
+            // Helper function for HSLToRGB
+            if (t < 0) t += 360;
+            if (t > 360) t -= 360;
+            if (t < 60) return p + (q - p) * t / 60;
+            if (t < 180) return q;
+            if (t < 240) return p + (q - p) * (240 - t) / 60;
+            return p;
+        }
+
 
         private void ChkTrackSingle_CheckedChanged(object sender, EventArgs e) {
             trackBlack.Enabled = chkTrackSingle.Checked;
